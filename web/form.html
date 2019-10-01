@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html>
+  <head>
+	<title>Task Scheduling Simulator</title>
+	<link href="styles.css" rel="stylesheet" type="text/css" />
+  </head>
+  <body>
+    <h1 id="title">CPU Task Scheduling Simulator</h1>
+
+    <div class="container">
+        <div id="entry" class="column card">
+            <h2>Enter Tasks</h2>
+            <form id="taskForm">
+                <table id="inputTable">
+                    <tr>
+                        <th width=15%>Task</th>
+                        <th>Execution Time</th>
+                        <th>Period</th>
+                        <th>Arrival Time</th>
+                    </tr>
+                    <tr>
+                        <td>1</td>
+                        <td><input class="tableinput" type="number" name="ex_list[]" /></td>
+                        <td><input class="tableinput" type="number" name="period_list[]" /></td>
+                        <td><input class="tableinput" type="number" name="arr_list[]" /></td>
+                    </tr>
+                    <tr>
+                        <td>2</td>
+                        <td><input class="tableinput" type="number" name="ex_list[]" /></td>
+                        <td><input class="tableinput" type="number" name="period_list[]" /></td>
+                        <td><input class="tableinput" type="number" name="arr_list[]" /></td>
+                    </tr>
+                    <tr>
+                        <td>3</td>
+                        <td><input class="tableinput" type="number" name="ex_list[]" /></td>
+                        <td><input class="tableinput" type="number" name="period_list[]" /></td>
+                        <td><input class="tableinput" type="number" name="arr_list[]" /></td>
+                    </tr>
+                </table>
+            </form>
+            <button class="uxButtons" id="addTask">Add More Tasks</button>
+            <button class="uxButtons" id="clearTasks">Reset Tasks</button>
+        </div>
+        <div id="options" class="column">
+            <div id="algo" class="card">
+                <h2>CPU Scheduling Alogrithm</h2>
+                <ul>
+                    <li>
+                        <input type="radio" id="rmAlgo" name="Alogrithm" value="rm">
+                        <label for="rmAlgo">Rate Monotonic (RM)</label>
+                        <div class="check"></div>
+                    </li>
+                    <li>
+                        <input type="radio" id="rdfAlgo" name="Alogrithm" value="rd">
+                        <label for="rdfAlgo">Earliest Deadline First (EDF)</label>
+                        <div class="check"><div class="inside"></div></div>
+                    </li>
+                </ul>
+
+            </div>
+            <div class="container">
+                    <div id="other" class="column card">
+                        <h2>Simulation Options</h2>
+                        <input id="endTime" class="tableinput" type="text" name="endTime" placeholder="End Time"/>
+                    </div>
+                    <button id="sim" class="column">Simulate <span></button>
+            </div>
+        </div>
+    </div>
+
+    <div class="container card">
+        <canvas id="timeLine" width="150" height="50"></canvas>
+    </div>
+    <h3 id="author" >Developed by Larry Staecey</h3>
+
+    <script type="text/javascript" src="/eel.js"></script>
+    <script type="text/javascript" src="Chart.js"></script>
+    <script type="text/javascript" src="form.js"></script>
+  </body>
+</html>
