@@ -1,4 +1,5 @@
 import collections
+import sys
 import eel
 
 MAX_EXECUTION = 99
@@ -18,7 +19,7 @@ class Task:
         self.execution_times = []
 
 #sort given tasks by period
-def sort_by_period(task, time):
+def sort_by_period(tasks, time):
     new_tasks = []
     remaining_tasks = []
 
@@ -154,13 +155,15 @@ def get_inputs():
 
     if algo == 'rm':
         print("Performing rm scheduling")
-        #trigger loading icon
+        #trigger js loading icon
 
-        rm_schedule(tasks, 0, MAX_EXECUTION)
-        print("check values")
+        ex_times = rm_schedule(tasks, 0, MAX_EXECUTION)
+        print("Completed scheduling")
+        eel.drawGraph(ex_times)
 
         #export values for figure
-        #stop loading icon
+        #stop loading icon right before updating figure
+        #alert function for exceptions
 
 #remove blank rows, and convert to integers
 #execution time must, period must, arrival can be blank
@@ -179,12 +182,12 @@ if __name__ == "__main__":
     tasks = []  
 
     #RM Example 1, Lecture Notes
-    tasks.append(Task(1, 5, 25, 0))
-    tasks.append(Task(3, 20, 60, 0))
-    tasks.append(Task(2, 8, 35, 0))
-    tasks.append(Task(4, 15, 105, 0))
+    #tasks.append(Task(1, 5, 25, 0))
+    #tasks.append(Task(3, 20, 60, 0))
+    #tasks.append(Task(2, 8, 35, 0))
+    #tasks.append(Task(4, 15, 105, 0))
 
-    rm_schedule(tasks, 0, MAX_EXECUTION)
+    #rm_schedule(tasks, 0, MAX_EXECUTION)
 
     eel.start('form.html')
 

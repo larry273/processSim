@@ -74,84 +74,44 @@ function sendInputs(){
     return [ex_list, period_list, arr_list, algo]
 }
 
+function getDataset(index, data) { 
+    return { 
+        label: 'Task '+ index, 
+        backgroundColor: "rgba(246,156,85,1)",
+        borderColor: "rgba(246,156,85,1)",
+        fill: false,
+        borderWidth : 30,
+        pointRadius : 0,
+        data: data 
+    }; 
+}
+    
 //draw timeline graph
 eel.expose(drawGraph);
 function drawGraph(tasks){
+    
+    var graph_values = []
+    //convert points to x & y data points grouped by lines
+    tasks.forEach(function (task){
+        task.forEach(function (block){
+            var line = [];
+            block.forEach(function (point){
+                var x = point[1];
+                var y = point[0];
+            
+                var json = {x: x, y: y};
+                line.push(json);
+            });
+            graph_values.push(line);
+        });
+    });
+
     var ctx = document.getElementById('timeLine').getContext('2d');
     //generate timeline
     var timeLineChart = new Chart(ctx, {
         type: 'line',
-        data: {
-            datasets: [
-            {
-
-                label: 'Scatter Dataset',
-                backgroundColor: "rgba(246,156,85,1)",
-                borderColor: "rgba(246,156,85,1)",
-                fill: false,
-                borderWidth : 15,
-                pointRadius : 0,
-                data: [
-                    {
-                        x: 0,
-                        y: 9
-                    }, {
-                        x: 3,
-                        y: 9
-                    }
-                ]
-            },
-            {
-                backgroundColor: "rgba(208,255,154,1)",
-                borderColor: "rgba(208,255,154,1)",
-                fill: false,
-                borderWidth : 15,
-                pointRadius : 0,
-                data: [
-                    {
-                        x: 3,
-                        y: 7
-                    }, {
-                        x: 5,
-                        y: 7
-                    }
-                ]
-            },
-            {
-
-                label: 'Scatter Dataset',
-                backgroundColor: "rgba(246,156,85,1)",
-                borderColor: "rgba(246,156,85,1)",
-                fill: false,
-                borderWidth : 15,
-                pointRadius : 0,
-                data: [
-                    {
-                        x: 5,
-                        y: 5
-                    }, {
-                        x: 10,
-                        y: 5
-                    }
-                ]
-            },
-            {
-                backgroundColor: "rgba(208,255,154,1)",
-                borderColor: "rgba(208,255,154,1)",
-                fill: false,
-                borderWidth : 15,
-                pointRadius : 0,
-                data: [
-                    {
-                        x: 10,
-                        y: 3
-                    }, {
-                        x: 13,
-                        y: 3
-                    }
-                ]
-            }
-            ]
+        data:  {
+            datasets: []
         },
         options: {
             legend : {
@@ -161,7 +121,12 @@ function drawGraph(tasks){
                 xAxes: [{
                     type: 'linear',
                     position: 'bottom',
+                    gridLines: { color: "#FFF" },
+                    scaleLabel: {
+                        fontColor:'#FFF',
+                    },
                     ticks : {
+                        fontColor: "white",
                         beginAtzero :true,
                         stepSize : 1
                     }
@@ -170,13 +135,22 @@ function drawGraph(tasks){
                     scaleLabel : {
                         display : false
                     },
+                    gridLines: { color: "#FFF" },
                     ticks : {
+                        fontColor: "white",
                         beginAtZero :true,
-                        max : 10
+                        max : tasks.length+1,
+                        stepSize : 1
                     }
                 }]
             }
         }
     });
+
+    //update graph with values from simulation
+    graph_values.forEach(function (line, i) {
+        timeLineChart.data.datasets.push(getDataset((i),line));//JSON.parse(point))); 
+    });
+    timeLineChart.update();
 }
 

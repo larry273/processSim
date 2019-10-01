@@ -250,9 +250,7 @@ input[type=radio]:checked ~ label{
 #endTime {
     background-color: #001021;
 }
-
-
 canvas {
     width: 100% !important;
-    height: 250px !important;
+    height: 300px !important;
 }
