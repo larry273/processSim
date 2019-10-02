@@ -80,7 +80,7 @@ function getDataset(index, data) {
         backgroundColor: "rgba(246,156,85,1)",
         borderColor: "rgba(246,156,85,1)",
         fill: false,
-        borderWidth : 30,
+        borderWidth : 5,
         pointRadius : 0,
         data: data 
     }; 
