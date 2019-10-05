@@ -3,7 +3,6 @@ import sys
 import eel
 
 MAX_EXECUTION = 99
-eel.init('web')
 
 
 class Task:
@@ -78,6 +77,8 @@ def rm_schedule(tasks, start, stop):
 
                 elif t.deadline < i:
                     print(f"Failed to meet deadline for {t.name}")
+                    #exit loop on missed deadline
+                    break
 
             #check end of execution
             if task_q[priority].remaining + start_t == i:
@@ -109,6 +110,8 @@ def rm_schedule(tasks, start, stop):
 
             elif task_q[priority].deadline <= i:
                 print(f"Failed to meet deadline for {task_q[priority].name}")
+                #exit loop on missed deadline
+                break
 
         else:
             try:
@@ -188,7 +191,7 @@ if __name__ == "__main__":
     #tasks.append(Task(4, 15, 105, 0))
 
     #rm_schedule(tasks, 0, MAX_EXECUTION)
-
+    eel.init('web')
     eel.start('form.html')
 
 

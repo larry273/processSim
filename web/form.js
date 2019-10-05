@@ -80,7 +80,7 @@ function getDataset(index, data) {
         backgroundColor: "rgba(246,156,85,1)",
         borderColor: "rgba(246,156,85,1)",
         fill: false,
-        borderWidth : 5,
+        borderWidth : 25,
         pointRadius : 0,
         data: data 
     }; 
@@ -117,16 +117,18 @@ function drawGraph(tasks){
             legend : {
                 display : false
             },
+            layout: {
+                padding: {
+                    top: 20,
+                }
+            },
+            responsive : true,
+            maintainAspectRatio: false,
             scales: {
                 xAxes: [{
                     type: 'linear',
                     position: 'bottom',
-                    gridLines: { color: "#FFF" },
-                    scaleLabel: {
-                        fontColor:'#FFF',
-                    },
                     ticks : {
-                        fontColor: "white",
                         beginAtzero :true,
                         stepSize : 1
                     }
@@ -135,11 +137,9 @@ function drawGraph(tasks){
                     scaleLabel : {
                         display : false
                     },
-                    gridLines: { color: "#FFF" },
                     ticks : {
-                        fontColor: "white",
                         beginAtZero :true,
-                        max : tasks.length+1,
+                        max : tasks.length,
                         stepSize : 1
                     }
                 }]
