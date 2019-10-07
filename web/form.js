@@ -75,10 +75,13 @@ function sendInputs(){
 }
 
 function getDataset(index, data) { 
+
+    colors = ["#3330f0", "#006cff", "#0091ff", "#00adff", "#00c5ff", "#00dacc", "#00ed93", "#1efc5c"];
+
     return { 
         label: 'Task '+ index, 
-        backgroundColor: "rgba(246,156,85,1)",
-        borderColor: "rgba(246,156,85,1)",
+        backgroundColor: colors[data[0].y],
+        borderColor: colors[data[0].y],
         fill: false,
         borderWidth : 25,
         pointRadius : 0,
@@ -119,7 +122,7 @@ function drawGraph(tasks){
             },
             layout: {
                 padding: {
-                    top: 20,
+                    top: 25,
                 }
             },
             responsive : true,
@@ -130,7 +133,8 @@ function drawGraph(tasks){
                     position: 'bottom',
                     ticks : {
                         beginAtzero :true,
-                        stepSize : 1
+                        stepSize : 1,
+                        fontColor: "white"
                     }
                 }],
                 yAxes : [{
@@ -140,7 +144,8 @@ function drawGraph(tasks){
                     ticks : {
                         beginAtZero :true,
                         max : tasks.length,
-                        stepSize : 1
+                        stepSize : 1,
+                        fontColor: "white"
                     }
                 }]
             }
