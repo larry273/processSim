@@ -1,4 +1,3 @@
-
 //add row to table
 document.getElementById("addTask").addEventListener("click", addTask)
 function addTask(){
@@ -33,6 +32,7 @@ function addTask(){
     arrRow.appendChild(arr);
 } 
 
+
 //reset form and task list count
 document.getElementById("clearTasks").addEventListener("click", clearTasks)
 function clearTasks(){
@@ -43,6 +43,13 @@ function clearTasks(){
     }
     document.getElementById('taskForm').reset();
 }
+
+//disable right click 
+/*
+document.addEventListener("contextmenu", function (e) {
+    e.preventDefault();
+}, false);
+*/
 
 //call python get inputs values, then run simulation
 document.getElementById("sim").addEventListener("click", function(){
@@ -159,3 +166,15 @@ function drawGraph(tasks){
     timeLineChart.update();
 }
 
+//hide alert message
+eel.expose(hide_alert);
+function hide_alert(){
+    document.getElementById("alert").style.display = "none";
+}
+
+eel.expose(show_alert);
+function show_alert(msg){
+    var alert = document.getElementById("alert");
+    alert.innerHTML = msg;
+    alert.style.display = "block";
+}

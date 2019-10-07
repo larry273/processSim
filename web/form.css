@@ -256,3 +256,12 @@ input[type=radio]:checked ~ label{
     min-height: 300px !important;
     max-height: 400px;
 }
+
+#alert {
+    padding: 10px;
+    background-color: #f44336;
+    color: white;
+    display: none;
+    font-weight: 600;
+    text-align: center;
+  }

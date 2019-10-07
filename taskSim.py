@@ -4,7 +4,6 @@ import eel
 
 MAX_EXECUTION = 100
 
-
 class Task:
     def __init__(self, name, brst, prd, arvl):
         self.name = name
@@ -64,6 +63,7 @@ def rm_schedule(tasks, start, stop):
     priority = 0
     start_t = 0
     task_executions = [] #list for all task execution times
+    fail = None
 
     #start execute in order of priority 
     for i in range(start, stop+1):
@@ -94,6 +94,7 @@ def rm_schedule(tasks, start, stop):
 
                 elif t.deadline < i:
                     print(f"Failed to meet deadline for {t.name}")
+                    fail = f"Task {t.name} missed deadline at {i}"
                     #exit loop on missed deadline
                     break
 
@@ -127,6 +128,7 @@ def rm_schedule(tasks, start, stop):
 
             elif task_q[priority].deadline <= i:
                 print(f"Failed to meet deadline for {task_q[priority].name}")
+                fail = f"Task {task_q[priority].name} missed deadline at {i}"
                 #exit loop on missed deadline
                 break
 
@@ -148,7 +150,7 @@ def rm_schedule(tasks, start, stop):
     for i in range(len(task_q)):
         task_executions.append(task_q[i].execution_times)
 
-    return task_executions 
+    return task_executions, fail 
     #for each time value
         #check for new arrival, reassign priorites
         #stop execution on higher priority or complete
@@ -163,6 +165,7 @@ def edf_schedule(tasks, start, stop):
     priority = 0
     start_t = 0
     task_executions = [] #list for all task execution times
+    fail = None
 
 
     for i in range(start, stop+1):
@@ -193,6 +196,7 @@ def edf_schedule(tasks, start, stop):
 
                 elif t.deadline < i:
                     print(f"Failed to meet deadline for {t.name}")
+                    fail = f"Task {t.name} missed deadline at {i}"
                     #exit loop on missed deadline
                     break
 
@@ -224,6 +228,7 @@ def edf_schedule(tasks, start, stop):
 
             elif task_q[priority].deadline <= i:
                 print(f"Failed to meet deadline for {task_q[priority].name}")
+                fail = f"Task {task_q[priority].name} missed deadline at {i}"
                 #exit loop on missed deadline
                 break
 
@@ -245,11 +250,12 @@ def edf_schedule(tasks, start, stop):
     for i in range(len(task_q)):
         task_executions.append(task_q[i].execution_times)
 
-    return task_executions 
+    return task_executions, fail 
 
 
 @eel.expose
 def get_inputs():
+    eel.hide_alert()
     in_values = eel.sendInputs()()
     if not in_values:
         return
@@ -268,14 +274,20 @@ def get_inputs():
     #calculate task execution times
     if algo == 'rm':
         print("Performing rm scheduling")
-        ex_times = rm_schedule(tasks, 0, MAX_EXECUTION)
+        ex_times, result = rm_schedule(tasks, 0, MAX_EXECUTION)
+        
+        if result:
+            eel.show_alert(result)
 
         print("Completed RM scheduling")
         eel.drawGraph(ex_times)
 
     elif algo == 'edf':
         print("performing edf scheduling")
-        ex_times = edf_schedule(tasks, 0, MAX_EXECUTION)
+        ex_times, result = edf_schedule(tasks, 0, MAX_EXECUTION)
+
+        if result:
+            eel.show_alert(result)
 
         print("Completed EDF scheduling")
         eel.drawGraph(ex_times)
