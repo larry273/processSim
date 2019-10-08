@@ -138,6 +138,7 @@ function drawGraph(tasks){
                 xAxes: [{
                     type: 'linear',
                     position: 'bottom',
+                    gridLines: { color: "grey" },
                     ticks : {
                         beginAtzero :true,
                         stepSize : 1,

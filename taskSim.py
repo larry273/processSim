@@ -48,6 +48,15 @@ def sort_by_deadline(tasks, time):
         task.priority = i
     return collections.deque(new_tasks), remaining_tasks
 
+#group execution times into list
+def compile_times(queue, remaining):
+    task_executions = []
+    #when done compile execution times
+    for i in range(len(remaining)):
+        task_executions.append(remaining[i].execution_times)
+    for i in range(len(queue)):
+        task_executions.append(queue[i].execution_times)
+    return task_executions
 
 #exection times for chart.js must be in point format [x:10, y:20]
 #execution time saved as [[x1,y1],[x2,y1]] added to overall list
@@ -62,7 +71,6 @@ def rm_schedule(tasks, start, stop):
     executing = None
     priority = 0
     start_t = 0
-    task_executions = [] #list for all task execution times
     fail = None
 
     #start execute in order of priority 
@@ -79,24 +87,37 @@ def rm_schedule(tasks, start, stop):
                 #check for stop conditions, new task higher priority or failed deadlines
                 if t.priority < executing.priority:
                     #find new index of executing task
+
                     for index, task in enumerate(task_q):
                         if task.name == executing.name:
-                            #task_q[index].execution_times.append([start_t, i])
                             task_q[index].execution_times.append([[task_q[index].name, start_t], [task_q[index].name, i]])
-
                             task_q[index].remaining -= (i - start_t)
+
                             print(f"*** Stopping Task {task_q[index].name}")
+
+                            #check if task was done execting this cycle anyway
+                            if task_q[index].remaining == 0:
+                                task_q[index].arvl = task_q[index].deadline
+                                task_q[index].deadline += task_q[index].prd
+                                task_q[index].remaining = task_q[index].brst
+
+                                not_arrived.append(task_q[index])
+                                del task_q[index]   
+                                break
+
                     
                     #start higher priority task
                     start_t = i
                     executing = task_q[priority]
                     print(f"*** Executing Task {task_q[priority].name}")
+                    break
 
+                #exit loop on missed deadline
                 elif t.deadline < i:
                     print(f"Failed to meet deadline for {t.name}")
-                    fail = f"Task {t.name} missed deadline at {i}"
-                    #exit loop on missed deadline
-                    break
+                    fail = f"Task {t.name} missed deadline at {t.deadline}"
+                    task_q[priority].execution_times.append([[task_q[priority].name, start_t], [task_q[priority].name, i]])
+                    return compile_times(task_q, not_arrived), fail 
 
             #check end of execution
             if task_q[priority].remaining + start_t == i:
@@ -111,7 +132,7 @@ def rm_schedule(tasks, start, stop):
 
                 if i == stop:
                     print("Completed timeline")
-                    break
+                    return compile_times(task_q, not_arrived), fail 
 
                 not_arrived.append(task_q[priority])
                 task_q.popleft()
@@ -126,11 +147,12 @@ def rm_schedule(tasks, start, stop):
 
                 print(f"*** Executing Task {task_q[priority].name}")
 
+            #exit loop on missed deadline
             elif task_q[priority].deadline <= i:
                 print(f"Failed to meet deadline for {task_q[priority].name}")
                 fail = f"Task {task_q[priority].name} missed deadline at {i}"
-                #exit loop on missed deadline
-                break
+                #task_q[priority].execution_times.append([[task_q[priority].name, start_t], [task_q[priority].name, i]])
+                return compile_times(task_q, not_arrived), fail 
 
         else:
             try:
@@ -143,14 +165,7 @@ def rm_schedule(tasks, start, stop):
             print(f"*** Executing Task {task_q[priority].name}")
             start_t = i
 
-
-    #when done compile execution times
-    for i in range(len(not_arrived)):
-        task_executions.append(not_arrived[i].execution_times)
-    for i in range(len(task_q)):
-        task_executions.append(task_q[i].execution_times)
-
-    return task_executions, fail 
+    return compile_times(task_q, not_arrived), fail 
     #for each time value
         #check for new arrival, reassign priorites
         #stop execution on higher priority or complete
@@ -164,9 +179,7 @@ def edf_schedule(tasks, start, stop):
     executing = None
     priority = 0
     start_t = 0
-    task_executions = [] #list for all task execution times
     fail = None
-
 
     for i in range(start, stop+1):
         print(f"Current Time: {i}")
@@ -188,17 +201,29 @@ def edf_schedule(tasks, start, stop):
 
                             task_q[index].remaining -= (i - start_t)
                             print(f"*** Stopping Task {task_q[index].name}")
-                    
+
+                            #check if task was done execting this cycle anyway
+                            if task_q[index].remaining == 0:
+                                task_q[index].arvl = task_q[index].deadline
+                                task_q[index].deadline += task_q[index].prd
+                                task_q[index].remaining = task_q[index].brst
+
+                                not_arrived.append(task_q[index])
+                                del task_q[index]   
+                                break
+
                     #start higher priority task
                     start_t = i
                     executing = task_q[priority]
                     print(f"*** Executing Task {task_q[priority].name}")
+                    break
 
+                #exit loop on missed deadline
                 elif t.deadline < i:
                     print(f"Failed to meet deadline for {t.name}")
-                    fail = f"Task {t.name} missed deadline at {i}"
-                    #exit loop on missed deadline
-                    break
+                    fail = f"Task {t.name} missed deadline at {t.deadline}"
+                    task_q[priority].execution_times.append([[task_q[priority].name, start_t], [task_q[priority].name, i]])
+                    return compile_times(task_q, not_arrived), fail 
 
             #check end of execution
             if task_q[priority].remaining + start_t == i:
@@ -211,7 +236,7 @@ def edf_schedule(tasks, start, stop):
 
                 if i == stop:
                     print("Completed timeline")
-                    break
+                    return compile_times(task_q, not_arrived), fail 
 
                 not_arrived.append(task_q[priority])
                 task_q.popleft()
@@ -226,11 +251,12 @@ def edf_schedule(tasks, start, stop):
 
                 print(f"*** Executing Task {task_q[priority].name}")
 
+            #exit loop on missed deadline
             elif task_q[priority].deadline <= i:
                 print(f"Failed to meet deadline for {task_q[priority].name}")
                 fail = f"Task {task_q[priority].name} missed deadline at {i}"
-                #exit loop on missed deadline
-                break
+                task_q[priority].execution_times.append([[task_q[priority].name, start_t], [task_q[priority].name, i]])
+                return compile_times(task_q, not_arrived), fail 
 
         else:
             try:
@@ -243,14 +269,8 @@ def edf_schedule(tasks, start, stop):
             print(f"*** Executing Task {task_q[priority].name}")
             start_t = i
 
+    return compile_times(task_q, not_arrived), fail 
 
-    #when done compile execution times
-    for i in range(len(not_arrived)):
-        task_executions.append(not_arrived[i].execution_times)
-    for i in range(len(task_q)):
-        task_executions.append(task_q[i].execution_times)
-
-    return task_executions, fail 
 
 
 @eel.expose
@@ -292,6 +312,7 @@ def get_inputs():
         print("Completed EDF scheduling")
         eel.drawGraph(ex_times)
 
+    #TODO draw deadlines on graph with seperate values
     
 
 #remove blank rows, and convert to integers
