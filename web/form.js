@@ -77,20 +77,30 @@ function sendInputs(){
     document.getElementsByName('arr_list[]').forEach(function(e){
         arr_list.push(e.value)
     });
+    var endTime = document.getElementById('endTime').value;
 
-    return [ex_list, period_list, arr_list, algo]
+    return [ex_list, period_list, arr_list, algo, endTime]
 }
 
-function getDataset(index, data) { 
+function getDataset(index, data, deadline=false) { 
 
-    colors = ["#3330f0", "#006cff", "#0091ff", "#00adff", "#00c5ff", "#00dacc", "#00ed93", "#1efc5c"];
+    colors = ["#0094d9", "#00a7e9", "#00b9ef", "#00caeb", "#00dadb", "#00e8c2", "#00f5a0", "#19ff78", "#5bff6a", "#7fff5c", "#9cff4e", "#b6ff41", "#cfff35", "#e6ff2b", "#fcff24"]; 
+    color = colors[data[0].y];
+    width = 25;
+    name = 'Task ' + index;
+
+    if (deadline){
+        color = "#fff";
+        width = 35;
+        name = 'Task ' + index + ' deadline'
+    }
 
     return { 
-        label: 'Task '+ index, 
-        backgroundColor: colors[data[0].y],
-        borderColor: colors[data[0].y],
+        label: name, 
+        backgroundColor: color,
+        borderColor: color,
         fill: false,
-        borderWidth : 25,
+        borderWidth : width,
         pointRadius : 0,
         data: data 
     }; 
@@ -151,7 +161,7 @@ function drawGraph(tasks){
                     },
                     ticks : {
                         beginAtZero :true,
-                        max : tasks.length,
+                        max : tasks.length-1,
                         stepSize : 1,
                         fontColor: "white"
                     }
@@ -161,9 +171,17 @@ function drawGraph(tasks){
     });
 
     //update graph with values from simulation
-    graph_values.forEach(function (line, i) {
-        timeLineChart.data.datasets.push(getDataset((i),line));//JSON.parse(point))); 
-    });
+
+    //graph_values.forEach(function (line, i) {
+    for(var i = graph_values.length; i--;){
+        line = graph_values[i];
+
+        if (line[1].x % 1 != 0){
+            timeLineChart.data.datasets.push(getDataset((line[0].y),line, true));
+        }
+
+        timeLineChart.data.datasets.push(getDataset((line[0].y),line));//JSON.parse(point))); 
+    }
     timeLineChart.update();
 }
 
