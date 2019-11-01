@@ -91,7 +91,7 @@ function getDataset(index, data, deadline=false) {
 
     if (deadline){
         color = "#fff";
-        width = 35;
+        width = 40;
         name = 'Task ' + index + ' deadline'
     }
 
@@ -101,8 +101,9 @@ function getDataset(index, data, deadline=false) {
         borderColor: color,
         fill: false,
         borderWidth : width,
-        pointRadius : 0,
-        data: data 
+        data: data,
+        pointRadius: 0,
+        pointHoverRadius: 5
     }; 
 }
     
@@ -143,6 +144,16 @@ function drawGraph(tasks){
                 }
             },
             responsive : true,
+            elements: { point: { hitRadius: 10, hoverRadius: 10, radius: 0 } },
+            tooltips: {
+                enabled: true,
+                callbacks: {
+                    label: function(tooltipItem, data) {
+                      var datasetLabel = '';
+                      return data.datasets[tooltipItem.datasetIndex].label
+                    }
+                }
+           },
             maintainAspectRatio: false,
             scales: {
                 xAxes: [{

@@ -2,7 +2,7 @@ import collections
 import sys
 import eel
 
-MAX_EXECUTION = 100
+MAX_EXECUTION = 150
 
 class Task:
     def __init__(self, name, brst, prd, arvl):
@@ -60,7 +60,7 @@ def compile_times(queue, remaining, deadlines):
     #add deadline markers to last index of executions
     dl_list = []
     for i in range(len(deadlines)):
-        dl_list.append([deadlines[i], [deadlines[i][0], deadlines[i][1] - 0.3]])
+        dl_list.append([deadlines[i], [deadlines[i][0], deadlines[i][1] - 0.2]])
     task_executions.append(dl_list)
 
     return task_executions
