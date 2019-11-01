@@ -222,12 +222,10 @@ function show_alert(msg){
 eel.expose(loading);
 function loading(){
     var div = document.getElementsByClassName('lds-ring')[0];
-    if (div.style.visibility == "visible"){
-        div.style.visibility = "hidden";
-        console.log('showing loading')
+    if (div.style.display == "inline-block"){
+        div.style.display = "none";
     }
     else {
-        div.style.visibility = "visible";
-        console.log('hiding loading')
+        div.style.display = "inline-block";
     }
 }

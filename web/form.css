@@ -268,13 +268,12 @@ input[type=radio]:checked ~ label{
 
 
  .lds-ring {
-  display: inline-block;
   position: absolute;
   width: 64px;
   height: 64px;
   margin: auto;
   top:-70%; right:-100%; left:-100%; bottom:-130%;
-  visibility: hidden;
+  display: none;
 }
 .lds-ring div {
   box-sizing: border-box;
