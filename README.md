@@ -5,6 +5,12 @@ Algorithms Implemented:
 * Rate monotonic
 * Earliest deadline first
 
+<br/>
+<br/>
+
+<p align="center">
+  <img src="images/screen1.jpg" width="500" />
+</p>
 
 <br/>
 <br/>
