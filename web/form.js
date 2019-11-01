@@ -107,11 +107,20 @@ function getDataset(index, data, deadline=false) {
     }; 
 }
     
+
+
 //draw timeline graph
 eel.expose(drawGraph);
+var timeLineChart = null;
+
 function drawGraph(tasks){
-    
     var graph_values = []
+
+    //destroy chart data
+    if(timeLineChart!=null){
+        timeLineChart.destroy();
+    }
+
     //convert points to x & y data points grouped by lines
     tasks.forEach(function (task){
         task.forEach(function (block){
@@ -129,7 +138,7 @@ function drawGraph(tasks){
 
     var ctx = document.getElementById('timeLine').getContext('2d');
     //generate timeline
-    var timeLineChart = new Chart(ctx, {
+    timeLineChart = new Chart(ctx, {
         type: 'line',
         data:  {
             datasets: []
@@ -146,13 +155,13 @@ function drawGraph(tasks){
             responsive : true,
             elements: { point: { hitRadius: 10, hoverRadius: 10, radius: 0 } },
             tooltips: {
-                enabled: true,
+                enabled: false /*,
                 callbacks: {
                     label: function(tooltipItem, data) {
                       var datasetLabel = '';
                       return data.datasets[tooltipItem.datasetIndex].label
                     }
-                }
+                }*/
            },
             maintainAspectRatio: false,
             scales: {
@@ -207,4 +216,18 @@ function show_alert(msg){
     var alert = document.getElementById("alert");
     alert.innerHTML = msg;
     alert.style.display = "block";
+}
+
+//show/hide loading
+eel.expose(loading);
+function loading(){
+    var div = document.getElementsByClassName('lds-ring')[0];
+    if (div.style.visibility == "visible"){
+        div.style.visibility = "hidden";
+        console.log('showing loading')
+    }
+    else {
+        div.style.visibility = "visible";
+        console.log('hiding loading')
+    }
 }

@@ -305,6 +305,8 @@ def edf_schedule(tasks, start, stop):
 @eel.expose
 def get_inputs():
     eel.hide_alert()
+    eel.loading()
+
     in_values = eel.sendInputs()()
     if not in_values:
         return
@@ -335,6 +337,7 @@ def get_inputs():
             eel.show_alert(result)
 
         print("Completed RM scheduling")
+        eel.loading()
         eel.drawGraph(ex_times)
 
     elif algo == 'edf':
@@ -345,7 +348,10 @@ def get_inputs():
             eel.show_alert(result)
 
         print("Completed EDF scheduling")
+        eel.loading()
         eel.drawGraph(ex_times)
+
+    #hide loading animation
 
     #TODO draw deadlines on graph with seperate values
     
