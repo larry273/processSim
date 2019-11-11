@@ -45,11 +45,9 @@ function clearTasks(){
 }
 
 //disable right click 
-/*
 document.addEventListener("contextmenu", function (e) {
     e.preventDefault();
 }, false);
-*/
 
 //call python get inputs values, then run simulation
 document.getElementById("sim").addEventListener("click", function(){
@@ -86,12 +84,12 @@ function getDataset(index, data, deadline=false) {
 
     colors = ["#0094d9", "#00a7e9", "#00b9ef", "#00caeb", "#00dadb", "#00e8c2", "#00f5a0", "#19ff78", "#5bff6a", "#7fff5c", "#9cff4e", "#b6ff41", "#cfff35", "#e6ff2b", "#fcff24"]; 
     color = colors[data[0].y];
-    width = 25;
+    width = 30;
     name = 'Task ' + index;
 
     if (deadline){
         color = "#fff";
-        width = 40;
+        width = 45;
         name = 'Task ' + index + ' deadline'
     }
 
@@ -149,7 +147,7 @@ function drawGraph(tasks){
             },
             layout: {
                 padding: {
-                    top: 25,
+                    top: 20,
                 }
             },
             responsive : true,
