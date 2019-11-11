@@ -1,5 +1,5 @@
-# processSim
-Simulate operating system scheduling algorithms with input task arrival and period then produce the execution timeline. 
+# OS Task Scheduling Simulator
+Simulate operating system scheduling algorithms with input task arrival and period then produce the execution timeline.
 
 Algorithms Implemented:
 * Rate monotonic
@@ -11,6 +11,15 @@ Algorithms Implemented:
 <p align="center">
   <img src="images/screen1.jpg" width="500" />
 </p>
+
+# Installation
+* Install python 3
+* clone/download repo
+* ``` pip install -r requirements.txt ```
+* ``` python processSim.py ```
+
+# PyInstaller Packaging
+``` python -m eel taskSim.py web --onefile --windowed --icon=web\favicon.ico ```
 
 <br/>
 <br/>
