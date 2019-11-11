@@ -19,7 +19,7 @@ Algorithms Implemented:
 * ``` python processSim.py ```
 
 # PyInstaller Packaging
-``` python -m eel taskSim.py web --onefile --windowed --icon=web\favicon.ico ```
+``` python -m eel processSim.py web --onefile --windowed --icon=web\favicon.ico ```
 
 <br/>
 <br/>
