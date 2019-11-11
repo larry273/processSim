@@ -147,7 +147,7 @@ function drawGraph(tasks){
             },
             layout: {
                 padding: {
-                    top: 20,
+                    top: 30,
                 }
             },
             responsive : true,
