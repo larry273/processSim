@@ -113,7 +113,8 @@ def rm_schedule(tasks, start, stop):
                                 task_q[index].remaining = task_q[index].brst
                                 
                                 not_arrived.append(task_q[index])
-                                del task_q[index]   
+                                del task_q[index]
+
                                 break
 
                     
@@ -126,7 +127,7 @@ def rm_schedule(tasks, start, stop):
                 #exit loop on missed deadline
                 elif t.deadline < i:
                     print(f"Failed to meet deadline for {t.name}")
-                    fail = f"Task {t.name} missed deadline at {t.deadline}"
+                    fail = f"Task {t.name} missed deadline at {t.deadline}.<br>{t.remaining} time units remaining."
                     task_q[priority].execution_times.append([[task_q[priority].name, start_t], [task_q[priority].name, i]])
 
                     deadlines.append([t.name, t.deadline])
@@ -166,7 +167,7 @@ def rm_schedule(tasks, start, stop):
             #exit loop on missed deadline
             elif task_q[priority].deadline <= i:
                 print(f"Failed to meet deadline for {task_q[priority].name}")
-                fail = f"Task {task_q[priority].name} missed deadline at {i}"
+                fail = f"Task {task_q[priority].name} missed deadline at {i}.<br>{task_q[priority].remaining} time units remaining"
                 #task_q[priority].execution_times.append([[task_q[priority].name, start_t], [task_q[priority].name, i]])
 
                 deadlines.append([task_q[priority].name, task_q[priority].deadline])
@@ -244,7 +245,7 @@ def edf_schedule(tasks, start, stop):
                 #exit loop on missed deadline
                 elif t.deadline < i:
                     print(f"Failed to meet deadline for {t.name}")
-                    fail = f"Task {t.name} missed deadline at {t.deadline}"
+                    fail = f"Task {t.name} missed deadline at {t.deadline}.<br>{t.remaining} time units remaining."
                     task_q[priority].execution_times.append([[task_q[priority].name, start_t], [task_q[priority].name, i]])
 
                     deadlines.append([t.name, t.deadline])
@@ -268,6 +269,9 @@ def edf_schedule(tasks, start, stop):
 
                 not_arrived.append(task_q[priority])
                 task_q.popleft()
+
+                #resort tasks based on arrival/deadline
+                task_q, not_arrived = sort_by_deadline(list(task_q) + not_arrived, i)
                 
                 start_t = i
                 try:
@@ -282,7 +286,7 @@ def edf_schedule(tasks, start, stop):
             #exit loop on missed deadline
             elif task_q[priority].deadline <= i:
                 print(f"Failed to meet deadline for {task_q[priority].name}")
-                fail = f"Task {task_q[priority].name} missed deadline at {i}"
+                fail = f"Task {task_q[priority].name} missed deadline at {i}.<br>{task_q[priority].remaining} time units remaining"
                 task_q[priority].execution_times.append([[task_q[priority].name, start_t], [task_q[priority].name, i]])
 
                 deadlines.append([task_q[priority].name, task_q[priority].deadline])
