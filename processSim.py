@@ -127,7 +127,7 @@ def rm_schedule(tasks, start, stop):
                 #exit loop on missed deadline
                 elif t.deadline < i:
                     print(f"Failed to meet deadline for {t.name}")
-                    fail = f"Task {t.name} missed deadline at {t.deadline}.<br>{t.remaining} time unit(s) remaining."
+                    fail = f"Task {t.name} missed deadline at {t.deadline}."
                     task_q[priority].execution_times.append([[task_q[priority].name, start_t], [task_q[priority].name, i]])
 
                     deadlines.append([t.name, t.deadline])
@@ -167,7 +167,7 @@ def rm_schedule(tasks, start, stop):
             #exit loop on missed deadline
             elif task_q[priority].deadline <= i:
                 print(f"Failed to meet deadline for {task_q[priority].name}")
-                fail = f"Task {task_q[priority].name} missed deadline at {i}.<br>{task_q[priority].remaining} time unit(s) remaining"
+                fail = f"Task {task_q[priority].name} missed deadline at {i}."
                 #task_q[priority].execution_times.append([[task_q[priority].name, start_t], [task_q[priority].name, i]])
 
                 deadlines.append([task_q[priority].name, task_q[priority].deadline])
@@ -244,7 +244,7 @@ def edf_schedule(tasks, start, stop):
                 #exit loop on missed deadline
                 elif t.deadline < i:
                     print(f"Failed to meet deadline for {t.name}")
-                    fail = f"Task {t.name} missed deadline at {t.deadline}.<br>{t.remaining} time unit(s) remaining."
+                    fail = f"Task {t.name} missed deadline at {t.deadline}."
                     task_q[priority].execution_times.append([[task_q[priority].name, start_t], [task_q[priority].name, i]])
 
                     deadlines.append([t.name, t.deadline])
@@ -285,7 +285,7 @@ def edf_schedule(tasks, start, stop):
             #exit loop on missed deadline
             elif task_q[priority].deadline <= i:
                 print(f"Failed to meet deadline for {task_q[priority].name}")
-                fail = f"Task {task_q[priority].name} missed deadline at {i}.<br>{task_q[priority].remaining-1} time unit(s) remaining"
+                fail = f"Task {task_q[priority].name} missed deadline at {i}."
                 task_q[priority].execution_times.append([[task_q[priority].name, start_t], [task_q[priority].name, i]])
 
                 deadlines.append([task_q[priority].name, task_q[priority].deadline])
