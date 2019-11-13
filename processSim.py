@@ -1,6 +1,7 @@
 import collections
 import sys
 import eel
+import re
 
 MAX_EXECUTION = 150
 
@@ -317,15 +318,27 @@ def get_inputs():
     print(f"Input values: {in_values}")
     algo = in_values[3]
     endT = in_values[4]
-    if endT != "" and int(endT) < MAX_EXECUTION:
-        execute = int(endT)
-    else:
-        execute = MAX_EXECUTION
+    try:
+        if endT != "" and int(endT) < MAX_EXECUTION:
+            execute = int(endT)
+        else:
+            execute = MAX_EXECUTION
+    except:
+            eel.loading()
+            eel.show_alert("Input error: Enter an integer for max execution")
+            return
 
     parsed_values = [in_values[0], in_values[1], in_values[2]]
     #TODO handle blank rows in python, convert to int, handle bad entries (regex)
     #TODO alert js on missing values
-    parsed_values = check_inputs(parsed_values)
+    parsed_values, bad = check_inputs(parsed_values)
+
+    #bad input check
+    if bad:
+        eel.loading()
+        eel.show_alert("Input error: Enter integers into all fields")
+        return
+
 
     tasks = []
     for i in range(len(parsed_values[0])):
@@ -364,12 +377,26 @@ def get_inputs():
 def check_inputs(tasks):
     print("test")
     filtered_tasks = []
+    error = False
+    int_tasks = []
     for t in tasks:
         t = list(filter(None, t))
+        for n in t:
+            if not re.match(r'^([\s\d]+)$', n):
+                print("input error")
+                error = True
+                break
         filtered_tasks.append(t)
+        try:
+            int_tasks = [[int(x) for x in t] for t in filtered_tasks]
+        except:
+            error = True
+            return int_tasks, error
 
-    int_tasks = [[int(x) for x in t] for t in filtered_tasks]
-    return int_tasks
+    if len(filtered_tasks[0]) != len(filtered_tasks[1]) or len(filtered_tasks[2]) != len(filtered_tasks[1]):
+        error = True
+
+    return int_tasks, error
 
 
 if __name__ == "__main__":
