@@ -3,7 +3,7 @@ import sys
 import eel
 import re
 
-MAX_EXECUTION = 500
+MAX_EXECUTION = 300
 DEFAULT_EXECUTION = 100
 
 class Task:
@@ -320,7 +320,7 @@ def get_inputs():
     algo = in_values[3]
     endT = in_values[4]
     try:
-        if endT != "":
+        if endT == "":
              execute = DEFAULT_EXECUTION
         elif int(endT) < MAX_EXECUTION:
             execute = int(endT)

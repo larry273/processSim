@@ -153,7 +153,7 @@ function drawGraph(tasks){
             responsive : true,
             elements: { point: { hitRadius: 10, hoverRadius: 10, radius: 0 } },
             tooltips: {
-                enabled: false /*,
+                enabled: true /*,
                 callbacks: {
                     label: function(tooltipItem, data) {
                       var datasetLabel = '';
