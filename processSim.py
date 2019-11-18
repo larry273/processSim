@@ -311,6 +311,7 @@ def edf_schedule(tasks, start, stop):
 def get_inputs():
     eel.hide_alert()
     eel.loading()
+    eel.hide_util()
 
     in_values = eel.sendInputs()()
     if not in_values:
@@ -342,6 +343,13 @@ def get_inputs():
         eel.show_alert("Input error: Enter integers into all fields")
         return
 
+    #calc util
+    #for t in tasks:
+    util = 0
+    for t in range(len(parsed_values[0])):
+        util += parsed_values[0][t]/parsed_values[1][t]
+
+    eel.show_util(f"CPU Utilization: {util*100:.2f}%")
 
     tasks = []
     for i in range(len(parsed_values[0])):

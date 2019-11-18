@@ -216,6 +216,19 @@ function show_alert(msg){
     alert.style.display = "block";
 }
 
+//show utilization
+eel.expose(show_util);
+function show_util(msg){
+    var alert = document.getElementById("util");
+    alert.innerHTML = msg;
+    alert.style.display = "block";
+}
+//hide util message
+eel.expose(hide_util);
+function hide_util(){
+    document.getElementById("util").style.display = "none";
+}
+
 //show/hide loading
 eel.expose(loading);
 function loading(){

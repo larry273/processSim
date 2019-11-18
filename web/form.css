@@ -266,6 +266,14 @@ input[type=radio]:checked ~ label{
     text-align: center;
   }
 
+#util {
+    padding: 10px;
+    background-color: #0072bb;
+    color: white;
+    display: none;
+    font-weight: 600;
+    text-align: center;
+}
 
  .lds-ring {
   position: absolute;
