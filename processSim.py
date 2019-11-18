@@ -346,8 +346,13 @@ def get_inputs():
     #calc util
     #for t in tasks:
     util = 0
-    for t in range(len(parsed_values[0])):
-        util += parsed_values[0][t]/parsed_values[1][t]
+    try:
+        for t in range(len(parsed_values[0])):
+            util += parsed_values[0][t]/parsed_values[1][t]
+    except:
+        eel.loading()
+        eel.show_alert("Error calculating CPU utilization")
+        return
 
     eel.show_util(f"CPU Utilization: {util*100:.2f}%")
 
