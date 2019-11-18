@@ -383,10 +383,6 @@ def get_inputs():
         eel.loading()
         eel.drawGraph(ex_times)
 
-    #hide loading animation
-
-    #TODO draw deadlines on graph with seperate values
-    
 
 #remove blank rows, and convert to integers
 #execution time must, period must, arrival can be blank
